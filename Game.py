@@ -16,17 +16,17 @@ class Game:
         for i in tile_list:
 
             i = pygame.transform.scale(i, (100,100))
-            if x == 450:
+            if x == 500:
 
 
                 self.win.blit(i,(x,y))
                 numero+=1
                 x = 0
-                y += 90
+                y += 100
             else:
 
                 self.win.blit(i,(x,y))
-                x += 90
+                x += 100
                 numero+=1
 
         print("This is numero: {}".format(numero))
