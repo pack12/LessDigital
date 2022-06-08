@@ -17,15 +17,19 @@ class Tile:
             if "." in image_cap:
 
                 image_cap = image_cap.removesuffix('.')
-
-
             tile = 'tile_' + str(i)
-            tiles[tile] = {'isSelected': False, 'isOcuppied': False, 'type': image_cap, 'imagePath': image_path,
-                           'center': (x,y)}
             if x==550:
+                tiles[tile] = {'isSelected': False, 'isOcuppied': False, 'type': image_cap, 'imagePath': image_path,
+                               'center': (x, y)}
                 x=50
                 y+=100
-            x+=100
+            else:
+
+                tiles[tile] = {'isSelected': False, 'isOcuppied': False, 'type': image_cap, 'imagePath': image_path,
+                               'center': (x,y)}
+                x += 100
+
+
 
 
 
