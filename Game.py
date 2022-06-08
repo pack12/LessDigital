@@ -1,11 +1,11 @@
 import pygame
-from Board import Board
 class Game:
 
     def __init__(self):
         self.width = 600
         self.height = 600
         self.win = pygame.display.set_mode((self.width, self.height))
+        pygame.display.set_caption("Less")
 
 
         print("Game class")
@@ -17,31 +17,34 @@ class Game:
 
             i = pygame.transform.scale(i, (100,100))
             if x == 500:
+                rect = i.get_rect()
 
+
+                # pygame.draw.circle(i,'red',(i.get_width()/2, i.get_height()/2),5)
 
                 self.win.blit(i,(x,y))
+                pygame.draw.circle(self.win, 'red', (x+50, y+50), 5)
+                print(x+50, y+50)
                 numero+=1
                 x = 0
                 y += 100
             else:
 
                 self.win.blit(i,(x,y))
+                print(x+50, y+50)
                 x += 100
                 numero+=1
 
-        print("This is numero: {}".format(numero))
 
-    def run(self):
+
+    def run(self, tile_list):
         run = True
-        b = Board()
-        b.display_board()
-        g = Game()
-        print(len(b.tile_list))
-        print(b.tile_list[0])
-        g.draw_tiles(b.tile_list)
+
+
+        self.draw_tiles(tile_list)
         while run:
 
-            # g.draw_tiles(b.tile_list)
+
 
             pygame.display.flip()
             for event in pygame.event.get():

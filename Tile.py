@@ -4,11 +4,11 @@ class Tile:
 
 
 
-    def createTile(self):
-        tileFactory = TileFactory()
-        imageList = tileFactory.randomImage()
+    def createTile(self, imagePathList):
+        # tileFactory = TileFactory()
+        imageList = imagePathList
 
-
+        x,y=50,50
         tiles = {}
         for i in range(1,37):
             image_cap = imageList[i-1][11:13]
@@ -20,18 +20,19 @@ class Tile:
 
 
             tile = 'tile_' + str(i)
-            tiles[tile] = {'isSelected': False, 'isOcuppied': False, 'type': image_cap, 'imagePath': image_path}
+            tiles[tile] = {'isSelected': False, 'isOcuppied': False, 'type': image_cap, 'imagePath': image_path,
+                           'center': (x,y)}
+            if x==550:
+                x=50
+                y+=100
+            x+=100
 
 
 
 
-        # print(tiles)
+
+        print("Tile.py: {}".format(tiles))
         return tiles
 
 
 
-def main():
-    tile = Tile()
-
-    tiles = tile.createTile()
-main()

@@ -1,9 +1,7 @@
-from Tile import Tile
-
 class Square:
-    def createSquares(self):
-        t = Tile()
-        tiles = t.createTile()
+    def createSquares(self,tiles):
+        # t = Tile()
+        # tiles = t.createTile()
 
         squares ={}
         square_number = 1
@@ -32,10 +30,3 @@ class Square:
 
         # print(squares)
         return squares
-
-
-def main():
-    s = Square()
-    squares = s.createSquares()
-    # print(type(squares['square_1'][0]))
-main()
