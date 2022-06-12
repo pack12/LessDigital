@@ -4,6 +4,7 @@ class Game:
     def __init__(self):
         self.width = 600
         self.height = 600
+        pygame.init()
         self.win = pygame.display.set_mode((self.width, self.height))
         pygame.display.set_caption("Less")
 
@@ -23,27 +24,42 @@ class Game:
                 # pygame.draw.circle(i,'red',(i.get_width()/2, i.get_height()/2),5)
 
                 self.win.blit(i,(x,y))
-                pygame.draw.circle(self.win, 'red', (x+50, y+50), 5)
-                print(x+50, y+50)
+                # pygame.draw.circle(self.win, 'red', (x+50, y+50), 5)
+
                 numero+=1
                 x = 0
                 y += 100
             else:
 
                 self.win.blit(i,(x,y))
-                print(x+50, y+50)
+                
                 x += 100
                 numero+=1
+    def draw_pieces_init(self, lb_piece_surfs, lb_piece_dict, db_surfs, db_dict):
+        num = 0
+        for i in lb_piece_dict:
+
+            lb_piece_surfs[num] = pygame.transform.scale(lb_piece_surfs[num],(25,25))
+            self.win.blit(lb_piece_surfs[num], (lb_piece_dict[i].x-10, lb_piece_dict[i].y-10))
+            num+=1
+        num = 0
+        for i in db_dict:
+
+            db_surfs[num] = pygame.transform.scale(db_surfs[num], (25,25))
+            self.win.blit(db_surfs[num], (db_dict[i].x-10, db_dict[i].y-10))
+            num+=1
 
 
 
-    def run(self, tile_list):
+
+    def run(self, tile_list, lb_piece_surfs, lb_piece_dict, db_surfs, db_dict):
         run = True
 
 
-        self.draw_tiles(tile_list)
-        while run:
 
+        while run:
+            self.draw_tiles(tile_list)
+            self.draw_pieces_init(lb_piece_surfs, lb_piece_dict, db_surfs, db_dict)
 
 
             pygame.display.flip()

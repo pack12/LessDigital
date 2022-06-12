@@ -1,11 +1,10 @@
 class Square:
     def createSquares(self,tiles):
-        # t = Tile()
-        # tiles = t.createTile()
+
 
         squares ={}
         square_number = 1
-        square_list = []
+
 
         for i in range(9):
             square = 'square_' + str((square_number))
