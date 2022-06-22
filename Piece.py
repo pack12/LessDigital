@@ -24,16 +24,3 @@ class Piece:
 
 
 
-def main():
-    lb_1 = Piece(2,3,'tile_3','Images/brownpi.png','lb')
-    lb_2 = Piece(4,5,'tile_7','Images/brownpi.png','lb')
-    pieces = {'lb_1':lb_1, 'lb_2': lb_2}
-    lb_2.tile = 'tile_4'
-
-
-
-
-
-
-
-main()

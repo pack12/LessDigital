@@ -17,7 +17,8 @@ def main():
     tiles = t.createTile(imageList)
 
     print("Main: {}".format(tiles))
-    print(tiles['tile_1']['center'][1])
+    # print(tiles['tile_1']['center'][1])
+
     """ Creating sq object from sq class that groups tiles (that get converted to str) into a key
     value pair where we have: square_1: [tile_1, tile_2, tile_3, tile_4]"""
     sq = Square()
@@ -49,7 +50,7 @@ def main():
 
 
     game = Game()
-    game.run(tile_list, lb_piece_surfs, lb_pieces,db_piece_surfs, db_pieces )
+    game.run(tile_list, lb_piece_surfs, lb_pieces,db_piece_surfs, db_pieces, tiles )
 
 
 main()
