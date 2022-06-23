@@ -15,7 +15,7 @@ class Game:
 
         print("Game class")
     def draw_tiles(self, tile_list):
-        # self.win.blit()
+        #testing commits
         x,y=0,0
         numero = 0
         for i in tile_list:
@@ -53,7 +53,7 @@ class Game:
             self.win.blit(db_surfs[num], (db_dict[i].x-10, db_dict[i].y-10))
             num+=1
     def mouse_pos_tile(self, mouse_pos, lb_piece_dict, db_dict, tiles,red_block):
-        print(mouse_pos)
+        # print(mouse_pos)
 
         for i in tiles:
             if mouse_pos[0]>= tiles[i]['center'][0]-43 and mouse_pos[0]<=tiles[i]['center'][0]+ 43:
@@ -119,7 +119,7 @@ class Game:
             self.win.fill('black')
             self.draw_tiles(tile_list)
             self.draw_pieces_init(lb_piece_surfs, lb_piece_dict, db_surfs, db_dict)
-            print(self.clock.get_fps())
+            # print(self.clock.get_fps())
             mouse_pos = pygame.mouse.get_pos()
 
             """Draw_red_rect: Draws red rect, and returns the specific rectangle, stored in variable block"""
