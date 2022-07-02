@@ -11,7 +11,7 @@ class Piece:
 
     def validate_move(self, current_tile, target_tile):
         pass
-    def move(self, current_tile, target_tile, piece):
+    def move(self, current_tile, target_tile, piece, tiles):
         pass
     # def load_piece(self, piece_dict):
     #     piece_surfs = []

@@ -35,6 +35,8 @@ def main():
                  'lb_2': Piece(150, 450, 'tile_26', 'Images/darkbrownpi.png', 'db'),
                  'lb_3': Piece(50, 550, 'tile_31', 'Images/darkbrownpi.png', 'db'),
                  'lb_4': Piece(150, 550, 'tile_32', 'Images/darkbrownpi.png', 'db')}
+    for i in lb_pieces:
+        print(lb_pieces[i])
     def load_piece(piece_dict):
         piece_surfs = []
 
