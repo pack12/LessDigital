@@ -19,7 +19,7 @@ class Game:
 
 
     def draw_fonts(self,isSelected, selected_tile):
-        font = (pygame.font.Font('font/Pixeltype.ttf',25))
+        font = (pygame.font.Font('font/Pixeltype.ttf',25)) #Loading the font
 
 
         isSelected = str(isSelected)
@@ -27,17 +27,17 @@ class Game:
         isSelected_2 = isSelected[int(len(isSelected)/2):]
         isSelected_3 = selected_tile
 
-        font_srf = pygame.font.Font.render(font, isSelected_1,False,'white')
+        font_srf = pygame.font.Font.render(font, isSelected_1,False,'white') # Creating the font srf using font.render
         self.win.blit(font_srf,(615,70))
 
-        font_srf = pygame.font.Font.render(font, isSelected_2, False, 'white')
+        font_srf = pygame.font.Font.render(font, isSelected_2, False, 'white') #using same variable to render isSelected2
         self.win.blit(font_srf, (615, 170))
 
         font_srf = pygame.font.Font.render(font, isSelected_3, False, 'white')
         self.win.blit(font_srf, (615, 270))
 
     def target_selector(self,mouse_clicks):
-            if mouse_clicks %2 == 0:
+            if mouse_clicks %2 == 0: #Every two clicks (even clciks) target selector activates
                 target_selector = True
                 return target_selector
 
@@ -54,6 +54,7 @@ class Game:
         mouse_clicks = 0
         selected_tile_info = None
         selected_tile = None
+        target_tile = None
         while run:
             self.clock.tick(60)
             self.win.fill('black')
@@ -68,7 +69,7 @@ class Game:
             self.draw_fonts(selected_tile_info, selected_tile)
 
             """ Draws the rect rect around the selected tile if one is selected"""
-            t.draw_red_rect(selected_tile, tiles, self.win)
+            t.draw_red_rect(selected_tile, tiles, self.win) #Takes selected_tile, tiles list(dict of str tiles, with values of dicts), and win srf
 
             # is_piece_here = self.check_piece(lb_piece_dict, db_dict, selected_tile, tiles)
 
@@ -78,20 +79,22 @@ class Game:
                     mouse_clicks+=1
                     target_selector_mode = self.target_selector(mouse_clicks)
                     if target_selector_mode:
-                        # target_tile, target_tile_info = t.tile_selector(mouse_pos, tiles)
-                        print('target mode')
+                        target_tile, target_tile_info = t.tile_selector(mouse_pos, tiles)
+                        print('target mode: ', target_tile, target_tile_info)
+                        p.move(selected_tile, target_tile, tiles, lb_piece_dict, db_dict)
 
                     else:
 
                         selected_tile, selected_tile_info = t.tile_selector(mouse_pos, tiles)
 
 
+                        p.move(selected_tile,target_tile,tiles, lb_piece_dict, db_dict)
                         t.highlight_tile(tiles, selected_tile, self.clicked_tiles)
 
 
 
-                    # print(selected_tile, " ", selected_tile_info)
-                    print(tiles)
+                        print(selected_tile, " ", selected_tile_info)
+                    # print(tiles)
 
 
 

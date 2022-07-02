@@ -68,7 +68,7 @@ class Tile:
 
         clicked_tiles.append(selected_tile)
         recent_tile = clicked_tiles[-1]
-        print("Recent Tiles: ",recent_tile)
+        # print("Recent Tiles: ",recent_tile)
 
         for i in clicked_tiles:
             if i == None:
@@ -97,7 +97,7 @@ class Tile:
 
 
     def tile_selector(self, mouse_pos,tiles):
-        print(mouse_pos[0], mouse_pos[1])
+        # print(mouse_pos[0], mouse_pos[1])
 
         for i in tiles:
 
@@ -114,7 +114,7 @@ class Tile:
                     # print("Tile",i," ", tiles[i])
 
                     # print(type(i))
-                    # print(type(tiles[i]))
+                    # (type(tiles[i]))
 
                     return i, tiles[i]
         return None, None
