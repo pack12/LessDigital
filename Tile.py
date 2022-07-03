@@ -88,12 +88,14 @@ class Tile:
             if i != recent_tile:
                 tiles[i]['isSelected'] = False
     def draw_red_rect(self, selected_tile, tiles,win):
-        for i in tiles:
-            if i == selected_tile:
+        if selected_tile == None:
+            pass
+        else:
+
+            if tiles[selected_tile]['isSelected'] == True:
                 red_rect = pygame.Rect(tiles[selected_tile]['center'][0] - 50, tiles[selected_tile]['center'][1] - 50, 100, 100)
                 pygame.draw.rect(win, 'red', red_rect, 5)
-            else:
-                pass
+
 
 
     def tile_selector(self, mouse_pos,tiles):

@@ -40,6 +40,30 @@ class Game:
             if mouse_clicks %2 == 0: #Every two clicks (even clciks) target selector activates
                 target_selector = True
                 return target_selector
+            else:
+                return False
+
+    def mouse_button_down_event(self, mouse_clicks, selected_tile, target_tile,tiles, lb_piece_dict, db_dict, mouse_pos,t,p ):
+        # print(is_piece_here)
+
+        print(mouse_clicks,'clisk')
+        target_selector_mode = self.target_selector(mouse_clicks) #Activates this function every 2 clicks
+        if target_selector_mode:
+            target_tile, target_tile_info = t.tile_selector(mouse_pos, tiles)
+            print('target mode: ', target_tile, target_tile_info)
+            p.move(selected_tile, target_tile, tiles, lb_piece_dict, db_dict, target_selector_mode)
+            return target_tile, target_tile_info
+
+
+        else:
+
+            selected_tile, selected_tile_info = t.tile_selector(mouse_pos, tiles)
+
+            p.move(selected_tile, target_tile, tiles, lb_piece_dict, db_dict, target_selector_mode)
+            t.highlight_tile(tiles, selected_tile, self.clicked_tiles)
+
+            print(selected_tile, " ", selected_tile_info)
+            return selected_tile, selected_tile_info
 
 
 
@@ -71,30 +95,12 @@ class Game:
             """ Draws the rect rect around the selected tile if one is selected"""
             t.draw_red_rect(selected_tile, tiles, self.win) #Takes selected_tile, tiles list(dict of str tiles, with values of dicts), and win srf
 
-            # is_piece_here = self.check_piece(lb_piece_dict, db_dict, selected_tile, tiles)
+            p.check_piece(lb_piece_dict, db_dict, selected_tile, tiles)
 
             for event in pygame.event.get():
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    # print(is_piece_here)
-                    mouse_clicks+=1
-                    target_selector_mode = self.target_selector(mouse_clicks)
-                    if target_selector_mode:
-                        target_tile, target_tile_info = t.tile_selector(mouse_pos, tiles)
-                        print('target mode: ', target_tile, target_tile_info)
-                        p.move(selected_tile, target_tile, tiles, lb_piece_dict, db_dict)
-
-                    else:
-
-                        selected_tile, selected_tile_info = t.tile_selector(mouse_pos, tiles)
-
-
-                        p.move(selected_tile,target_tile,tiles, lb_piece_dict, db_dict)
-                        t.highlight_tile(tiles, selected_tile, self.clicked_tiles)
-
-
-
-                        print(selected_tile, " ", selected_tile_info)
-                    # print(tiles)
+                    mouse_clicks += 1
+                    selected_tile, selected_tile_info = self.mouse_button_down_event(mouse_clicks,selected_tile,target_tile,tiles,lb_piece_dict,db_dict,mouse_pos,t,p)
 
 
 
