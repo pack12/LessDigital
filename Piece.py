@@ -35,6 +35,14 @@ class BoardPiece():
                 if db_piece_dict[i].x == tiles[selected_tile]['center'][0] and db_piece_dict[i].y == tiles[selected_tile]['center'][1]:
                     print("Piece Here")
                     return True
+    def check_occupied(self,lb_piece_dict, db_piece_dict, tiles):
+        for i in tiles:
+            for j in lb_piece_dict:
+                if lb_piece_dict[j].x == tiles[i]['center'][0] and lb_piece_dict[j].y == tiles[i]['center'][1]:
+                    tiles[i]['isOcuppied'] = True
+            for k in db_piece_dict:
+                if db_piece_dict[k].x == tiles[i]['center'][0] and db_piece_dict[k].y == tiles[i]['center'][1]:
+                    tiles[i]['isOcuppied'] = True
 
 
     def validate_move(self, current_tile, target_tile):

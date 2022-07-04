@@ -85,7 +85,7 @@ class Game:
 
             t.draw_tiles(tile_list,self.win)
             p.draw_pieces(lb_piece_surfs, lb_piece_dict, db_surfs, db_dict,self.win)
-
+            p.check_occupied(lb_piece_dict,db_dict,tiles)
             mouse_pos = pygame.mouse.get_pos()
 
 
@@ -101,6 +101,10 @@ class Game:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     mouse_clicks += 1
                     selected_tile, selected_tile_info = self.mouse_button_down_event(mouse_clicks,selected_tile,target_tile,tiles,lb_piece_dict,db_dict,mouse_pos,t,p)
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_3:
+
+                        print(tiles)
 
 
 
