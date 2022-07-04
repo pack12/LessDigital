@@ -43,10 +43,11 @@ class Game:
             else:
                 return False
 
-    def mouse_button_down_event(self, mouse_clicks, selected_tile, target_tile,tiles, lb_piece_dict, db_dict, mouse_pos,t,p ):
-        # print(is_piece_here)
+    def mouse_button_down_event(self, mouse_clicks, selected_tile, target_tile,tiles, lb_piece_dict, db_dict,
+                                mouse_pos,t,p):
 
-        print(mouse_clicks,'clisk')
+
+
         target_selector_mode = self.target_selector(mouse_clicks) #Activates this function every 2 clicks
         if target_selector_mode:
             target_tile, target_tile_info = t.tile_selector(mouse_pos, tiles)
@@ -100,11 +101,21 @@ class Game:
             for event in pygame.event.get():
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     mouse_clicks += 1
-                    selected_tile, selected_tile_info = self.mouse_button_down_event(mouse_clicks,selected_tile,target_tile,tiles,lb_piece_dict,db_dict,mouse_pos,t,p)
+                    selected_tile, selected_tile_info = self.mouse_button_down_event(mouse_clicks,selected_tile,
+                                                            target_tile,tiles,lb_piece_dict,db_dict,mouse_pos,t,p)
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_3:
-
                         print(tiles)
+                    elif event.key == pygame.K_ESCAPE:
+
+                        mouse_clicks -=1
+                        selected_tile = None
+                        target_tile = None
+
+                        self.mouse_button_down_event(mouse_clicks,selected_tile, target_tile, tiles,
+                                                     lb_piece_dict, db_dict, mouse_pos, t,p)
+
+
 
 
 

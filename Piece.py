@@ -29,11 +29,11 @@ class BoardPiece():
         if selected_tile != None:
             for i in lb_piece_dict:
                 if lb_piece_dict[i].x == tiles[selected_tile]['center'][0] and lb_piece_dict[i].y == tiles[selected_tile]['center'][1]:
-                    print("Piece Here")
+                    # print("Piece Here")
                     return True
             for i in db_piece_dict:
                 if db_piece_dict[i].x == tiles[selected_tile]['center'][0] and db_piece_dict[i].y == tiles[selected_tile]['center'][1]:
-                    print("Piece Here")
+                    # print("Piece Here")
                     return True
     def check_occupied(self,lb_piece_dict, db_piece_dict, tiles):
         for i in tiles:
