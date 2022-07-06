@@ -74,11 +74,16 @@ class Tile:
             if i == None:
                 clicked_tiles.remove(i)
 
+
                 # print(self.clicked_tiles)
 
         if recent_tile == None:
             pass
+        # elif tiles[recent_tile]['isOcuppied'] == False:
+        #     tiles[recent_tile]['isSelected'] = False
+
         else:
+
 
             tiles[recent_tile]['isSelected'] = True
 

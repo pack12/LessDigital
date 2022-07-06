@@ -37,6 +37,7 @@ class Game:
         self.win.blit(font_srf, (615, 270))
 
     def target_selector(self,mouse_clicks):
+            print(mouse_clicks, 'clicks::')
             if mouse_clicks %2 == 0: #Every two clicks (even clciks) target selector activates
                 target_selector = True
                 return target_selector
@@ -109,11 +110,13 @@ class Game:
                     elif event.key == pygame.K_ESCAPE:
 
                         mouse_clicks -=1
-                        selected_tile = None
-                        target_tile = None
-
-                        self.mouse_button_down_event(mouse_clicks,selected_tile, target_tile, tiles,
-                                                     lb_piece_dict, db_dict, mouse_pos, t,p)
+                        tiles[selected_tile]['isSelected'] = False
+                        # selected_tile = None
+                        # selected_tile_info = None
+                        # target_tile = None
+                        #
+                        # self.mouse_button_down_event(mouse_clicks,selected_tile, target_tile, tiles,
+                        #                              lb_piece_dict, db_dict, mouse_pos, t,p)
 
 
 
