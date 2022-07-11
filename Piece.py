@@ -47,12 +47,8 @@ class BoardPiece():
 
     def validate_move(self, current_tile, target_tile):
         pass
-    def move(self, selected_tile, target_tile,tiles, lb_dict, db_dict, target_selector):
-        #I also need an actual piece object from lb_dict or db_dict
-        #selected_tile is a str that can be used as a key
-        #target_tile is also a str
-        #All I need to move the piece is to take the piece x and y and move it to the target_tile center(x,y)
-        #Then the piece.x y becomes target_tile center xy
+    def move(self, selected_tile, target_tile,tiles, lb_dict, db_dict):
+        
 
         """Checking to see if piece in lb_dict is being selected"""
         for i in lb_dict:
@@ -85,6 +81,8 @@ class BoardPiece():
 
                 moveable.x = centerx
                 moveable.y = centery
+                tiles[selected_tile]['isSelected'] = False
+
             else:
                 pass
 
