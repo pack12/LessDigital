@@ -82,6 +82,7 @@ class BoardPiece():
                 moveable.x = centerx
                 moveable.y = centery
                 tiles[selected_tile]['isSelected'] = False
+                tiles[selected_tile]['isOcuppied'] = False
 
             else:
                 pass

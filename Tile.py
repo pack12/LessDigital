@@ -67,12 +67,16 @@ class Tile:
     def highlight_tile(self, tiles,selected_tile, clicked_tiles):
 
         # clicked_tiles.append(selected_tile)
-        recent_tile = clicked_tiles[-1]
+        if len(clicked_tiles) == 0:
+            recent_tile = None
+        else:
+
+            recent_tile = clicked_tiles[-1]
         # print("Recent Tiles: ",recent_tile)
 
-        for i in clicked_tiles:
-            if i == None:
-                clicked_tiles.remove(i)
+        # for i in clicked_tiles:
+        #     if i == None:
+        #         clicked_tiles.remove(i)
 
 
 
@@ -129,43 +133,44 @@ class Tile:
                     return i, tiles[i]
         return None, None
     def sort_clicked_tiles(self, current_tile, target_tile, tiles):
-        if tiles[current_tile]['isOcuppied'] == True:
 
-            if tiles[target_tile]['isOcuppied'] == True:
-                target_tile = current_tile
-                return current_tile, target_tile
-            elif tiles[target_tile]['isOcuppied'] == False:
-                return current_tile, target_tile
+        if current_tile != None and target_tile != None:
+
+            if tiles[current_tile]['isOcuppied'] == True:
+
+                if tiles[target_tile]['isOcuppied'] == True:
+                    tiles[target_tile]['isSelected'] = False
+                    target_tile = current_tile
+                    print('both are not great')
+                    tiles[current_tile]['isSelected'] = False
+
+                    return current_tile, target_tile
+                elif tiles[target_tile]['isOcuppied'] == False:
+                    return current_tile, target_tile
+
+
+            else:
+                return None, None
         else:
             return None, None
+    def check_clicked_tiles(self, tiles, clicked_tiles):
 
+        for i in clicked_tiles:
+            if i != None:
 
-    # def target_tile_selector(self, target_tiles, tiles):
-    #     if len(target_tiles) > 0:
-    #
-    #         target_tile = target_tiles[-1]
-    #         return target_tile, tiles[target_tile]
-    #     else:
-    #         return None, None
+                if tiles[i]['isOcuppied'] == False and tiles[i]['isSelected'] == False and clicked_tiles.index(i) == 0:
+                    clicked_tiles.remove(i)
+                    # clicked_tiles.remove(clicked_tiles[0])
+                    # clicked_tiles.clear()
+                    print('CheckedClicks: ',clicked_tiles)
+            # elif i == None:
+            #     clicked_tiles.remove(i)
 
-        # if len(target_tiles) > 1:
-        #
-        #     for i in range(len(target_tiles)-1):
-        #         if target_tiles[i+1] != clicked_tiles[i]:
-        #             target_tile = clicked_tiles[i+1]
-        #             target_tile_info = tiles[clicked_tiles[i+1]]
-        #             print(target_tile, 'thi sshould be the target tile!')
-        #             return target_tile, target_tile_info
-        #
-        #         else:
-        #             target_tile = None
-        #             target_tile_info = None
-        #             print('what', clicked_tiles)
-        #             return target_tile, target_tile_info
-        # else:
-        #
-        #     return None, None
+            elif i == None:
+                clicked_tiles.clear()
 
+            else:
+                pass
 
 
 
