@@ -86,16 +86,16 @@ class Tile:
         # elif tiles[recent_tile]['isOcuppied'] == False:
         #     tiles[recent_tile]['isSelected'] = False
 
-        elif tiles[recent_tile]['isOcuppied'] == False:
+        elif tiles[recent_tile]['isOcuppied'] == False: #If click on tile is not occupied, then the tile's isSelected remains false
 
             tiles[recent_tile]['isSelected'] = False
 
-        elif tiles[recent_tile]['isOcuppied'] == True:
+        elif tiles[recent_tile]['isOcuppied'] == True: # If click on tile is occupied by piece, then the tile's isSelected becomes True
 
             tiles[recent_tile]['isSelected'] = True
 
 
-        for i in tiles:
+        for i in tiles: #Goes through the tile dict and if any tile doesn't equal selected_tile, then it remains False, done so that previously selected tiles don't stay true forever
             if i != recent_tile:
                 tiles[i]['isSelected'] = False
         print(clicked_tiles)
@@ -121,17 +121,9 @@ class Tile:
                 if mouse_pos[1]>=tiles[i]['center'][1]-43 and mouse_pos[1]<=tiles[i]['center'][1]+43:
 
 
-
-
-
-
-                    # print("Tile",i," ", tiles[i])
-
-                    # print(type(i))
-                    # (type(tiles[i]))
-
                     return i, tiles[i]
         return None, None
+
     def sort_clicked_tiles(self, current_tile, target_tile, tiles):
 
         if current_tile != None and target_tile != None:
@@ -158,19 +150,53 @@ class Tile:
         for i in clicked_tiles:
             if i != None:
 
-                if tiles[i]['isOcuppied'] == False and tiles[i]['isSelected'] == False and clicked_tiles.index(i) == 0:
+                if tiles[i]['isOcuppied'] == False and tiles[i]['isSelected'] == False and clicked_tiles.index(i) == 0: #Removing tile in index 0 that doesn't have a piece occupying it
+
                     clicked_tiles.remove(i)
-                    # clicked_tiles.remove(clicked_tiles[0])
-                    # clicked_tiles.clear()
+
                     print('CheckedClicks: ',clicked_tiles)
-            # elif i == None:
-            #     clicked_tiles.remove(i)
+
 
             elif i == None:
                 clicked_tiles.clear()
 
             else:
                 pass
+
+
+
+    def get_current_tile_type(self, current_tile, tiles):
+        if current_tile != None:
+
+            for i in tiles:
+                if i == current_tile:
+                    current_tile_type = tiles[current_tile]['type']
+                    print('Current Type: ', tiles[current_tile]['type'])
+                    return current_tile_type
+
+    def get_target_tile_type(self, target_tile, tiles):
+        if target_tile != None:
+
+            for i in tiles:
+                if i == target_tile:
+                    target_tile_type = tiles[target_tile]['type']
+                    print('Target Type: ', tiles[target_tile]['type'])
+                    return target_tile_type
+
+
+    def get_inverse_wall(self, move_direction, target_tile_type):
+        if move_direction == 'N' and target_tile_type == 'S':
+            return True
+        elif move_direction == 'S' and target_tile_type == 'N':
+            return True
+        elif move_direction == 'E' and target_tile_type == 'W':
+            return True
+        elif move_direction == 'W' and target_tile_type == 'E':
+            return True
+
+    def get_inside_wall(self, move_direction, current_tile_type):
+        if move_direction == current_tile_type:
+            return True
 
 
 

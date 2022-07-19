@@ -8,6 +8,7 @@ class Piece:
         self.tile = tile
         self.image_path = image_path
         self.color = color
+        self.movable = False
 
 
 class BoardPiece():
@@ -45,33 +46,46 @@ class BoardPiece():
                     tiles[i]['isOcuppied'] = True
 
 
-    def validate_move(self, current_tile, target_tile):
-        pass
-    def move(self, selected_tile, target_tile,tiles, lb_dict, db_dict):
-        
+    def validate_move(self,  move_direction, jump, target_tile, tiles, diagonal):
+        valid_moves = ['N', 'E', 'S', 'W']
+        if move_direction in valid_moves or jump == True:
+            if tiles[target_tile]['isOcuppied'] == True:
+                print('INVALID, despite ^^')
+                return False
+            if diagonal == True:
+                print('dagonal')
+                return False
+            print('VALID MOVE')
+            return True
+        else:
+            print('INVALID')
+            return False
+
+    def move(self, selected_tile, target_tile,tiles, lb_dict, db_dict, valid_move):
 
         """Checking to see if piece in lb_dict is being selected"""
         for i in lb_dict:
             if selected_tile != None:
 
-                if lb_dict[i].x == tiles[selected_tile]['center'][0] and lb_dict[i].y == tiles[selected_tile]['center'][1]:
-                    print('Lb selected')
-                    moveable = lb_dict[i]
+                if lb_dict[i].x == tiles[selected_tile]['center'][0] and lb_dict[i].y == tiles[selected_tile]['center'][1]: #and lb_dict[i].movable == True
+                    print('Lb selected')    #If selected,
+                    moveable = lb_dict[i] # The selected piece gets stored in the variable moveable
             else:
                 pass
         for i in db_dict:
             if selected_tile!= None:
 
-                if db_dict[i].x == tiles[selected_tile]['center'][0] and db_dict[i].y == tiles[selected_tile]['center'][1]:
+                if db_dict[i].x == tiles[selected_tile]['center'][0] and db_dict[i].y == tiles[selected_tile]['center'][1]: #and db_dict[i].movable == True
 
-                    print('db selected')
-                    moveable = db_dict[i]
+                    print('db selected')    #If selected,
+                    moveable = db_dict[i] # The selected piece gets stored in the variable moveable
             else:
                 pass
 
+        """ If target_tile is not None and the isSelected attribute equals false, then we move AND if movable attribute is true"""
         if target_tile != None:
 
-            if tiles[target_tile]['isSelected'] == False:
+            if tiles[target_tile]['isSelected'] == False and valid_move == True and moveable.movable == True:
 
                 centerx = tiles[target_tile]['center'][0]
                 centery = tiles[target_tile]['center'][1]
@@ -81,14 +95,99 @@ class BoardPiece():
 
                 moveable.x = centerx
                 moveable.y = centery
+
+                """Changing previous tile's attributes to an empty tile"""
                 tiles[selected_tile]['isSelected'] = False
                 tiles[selected_tile]['isOcuppied'] = False
 
             else:
                 pass
+    def check_direction(self, current_tile, target_tile):
+        c_tile_number = int(current_tile[5:])
+        t_tile_number = int(target_tile[5:])
+
+        if c_tile_number -1 == t_tile_number:
+            print('W')
+            return 'W'
+        elif c_tile_number + 1 == t_tile_number:
+            print('E')
+            return 'E'
+        elif c_tile_number - 6 == t_tile_number:
+            print('N')
+            return 'N'
+        elif c_tile_number + 6 == t_tile_number:
+            print('S')
+            return 'S'
+    def check_surround(self,current_tile, tiles, clicked_tiles):
+
+        tile_str = 'tile_'
+        surround_pieces = []
+
+        if tiles[current_tile]['isOcuppied'] == True and current_tile in clicked_tiles:
+            for i in tiles:
+
+                #Check to the right of the tile
+                if tiles[i]['isOcuppied'] == True and tiles[i]['center'][0] == tiles[current_tile]['center'][0] + 100 and tiles[i]['center'][1] == tiles[current_tile]['center'][1]:
+                    surround_pieces.append(i)
+                elif tiles[i]['isOcuppied'] == True and tiles[i]['center'][0] == tiles[current_tile]['center'][0] - 100 and tiles[i]['center'][1] == tiles[current_tile]['center'][1]:
+                    surround_pieces.append(i)
+                elif tiles[i]['isOcuppied'] == True and tiles[i]['center'][1] == tiles[current_tile]['center'][1] + 100 and tiles[i]['center'][0] == tiles[current_tile]['center'][0]:
+                    surround_pieces.append(i)
+                elif tiles[i]['isOcuppied'] == True and tiles[i]['center'][1] == tiles[current_tile]['center'][1] - 100 and tiles[i]['center'][0] == tiles[current_tile]['center'][0]:
+                    surround_pieces.append(i)
+
+        return surround_pieces
+
+    def check_target_surround(self, current_tile,target_tile, tiles):
+        surround_pieces = []
+        c_tile_num = int(current_tile[5:])
+        t_tile_num = int(target_tile[5:])
 
 
 
+
+        for i in tiles:
+            if tiles[i]['isOcuppied'] == True and tiles[i]['center'][0] == tiles[target_tile]['center'][0] + 100 and tiles[i]['center'][1] == tiles[target_tile]['center'][1]:
+                surround_pieces.append(i)
+            elif tiles[i]['isOcuppied'] == True and tiles[i]['center'][0] == tiles[target_tile]['center'][0] - 100 and tiles[i]['center'][1] == tiles[target_tile]['center'][1]:
+                surround_pieces.append(i)
+            elif tiles[i]['isOcuppied'] == True and tiles[i]['center'][1] == tiles[target_tile]['center'][1] + 100 and tiles[i]['center'][0] == tiles[target_tile]['center'][0]:
+                surround_pieces.append(i)
+            elif tiles[i]['isOcuppied'] == True and tiles[i]['center'][1] == tiles[target_tile]['center'][1] - 100 and tiles[i]['center'][0] == tiles[target_tile]['center'][0]:
+                surround_pieces.append(i)
+        # surround_pieces.remove(surround_pieces[0])
+        # if c_tile_num + 1 == t_tile_num or c_tile_num - 1 == t_tile_num:
+        #     surround_pieces.remove(surround_pieces[-1])
+        # elif c_tile_num - 6 == t_tile_num or c_tile_num + 6 == t_tile_num:
+        #     surround_pieces.remove(surround_pieces[-1])
+
+        if current_tile in surround_pieces:
+
+            surround_pieces.remove(current_tile)
+
+
+        return surround_pieces
+
+    def check_jump(self, current_surround, target_surround):
+        for i in current_surround:
+            for j in target_surround:
+                if i == j:
+                    jump = True
+                    return jump
+        return False
+
+    def check_diagonal(self, selected_tile, target_tile, tiles):
+        s_tile_num = int(selected_tile[5:])
+        t_tile_num = int(target_tile[5:])
+        print(s_tile_num, t_tile_num, 'check diag')
+        if s_tile_num + 5 == t_tile_num or s_tile_num - 5 == t_tile_num:
+            diagonal = True
+            return diagonal
+        elif s_tile_num + 7 == t_tile_num or s_tile_num - 7 == t_tile_num:
+            diagonal = True
+            return diagonal
+        else:
+            return False
 
 
 
