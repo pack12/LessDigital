@@ -15,7 +15,7 @@ class Game:
 
 
 
-        print("Game class")
+        # print("Game class")
 
 
 
@@ -41,7 +41,8 @@ class Game:
     def sub_moves(self, valid_move, moves):
         if valid_move == True:
             moves -= 1
-            print(moves)
+            # print('MOVES',moves)
+            print('VALID')
             return moves
         else:
             return moves
@@ -52,17 +53,17 @@ class Game:
             lb_turn = False
 
             for i in lb_dict:
-                lb_dict[i].moveable = False
+                lb_dict[i].movable = False
             for i in db_dict:
-                db_dict[i].moveable = True
+                db_dict[i].movable = True
             return lb_turn, db_turn
         elif db_turn == True:
             db_turn = False
             lb_turn = True
             for i in lb_dict:
-                lb_dict[i].moveable = True
+                lb_dict[i].movable = True
             for i in db_dict:
-                db_dict[i].moveable = False
+                db_dict[i].movable = False
             return lb_turn, db_turn
 
     def set_up_turn(self, lb_dict, db_dict):
@@ -85,16 +86,18 @@ class Game:
         selected_tile = None
         target_tile = None
         move_direction = None
-        lb_turn = False
-        db_turn = True
+        lb_turn = True
+        db_turn = False
         self.set_up_turn(lb_piece_dict, db_dict)
         while run:
             self.clock.tick(60)
             self.win.fill('black')
 
+
             t.draw_tiles(tile_list,self.win)
             p.draw_pieces(lb_piece_surfs, lb_piece_dict, db_surfs, db_dict,self.win)
             p.check_occupied(lb_piece_dict,db_dict,tiles) # Goes through each dict, checking to see if lb/db piece xy match up with a tile location, if so, sets ocuppied to TRUE
+
             mouse_pos = pygame.mouse.get_pos()
 
 
@@ -118,6 +121,7 @@ class Game:
                         current_tile = self.clicked_tiles[0]
                         target_tile = self.clicked_tiles[1]
                         current_tile, target_tile = t.sort_clicked_tiles(current_tile,target_tile,tiles)
+                        selected_piece = p.get_piece(lb_piece_dict, db_dict, current_tile, tiles)
                         move_direction = p.check_direction(current_tile,target_tile)
                         surround_pieces = p.check_surround(current_tile, tiles, self.clicked_tiles)
                         target_surround = p.check_target_surround(current_tile,target_tile, tiles)
@@ -131,15 +135,22 @@ class Game:
                         # check_ontile = t.get_inside_wall(move_direction, current_tile_type)
                         # check_targettile = t.get_inverse_wall(move_direction, target_tile_type)
 
-                        valid_move = p.validate_move(move_direction, jump, target_tile, tiles, diagonal) # Depending on move direction, returns whether move is valid
+                        valid_move = p.validate_move(move_direction, jump, target_tile, tiles, diagonal, selected_piece) # Depending on move direction, returns whether move is valid
+
+
                         total_player_moves = self.sub_moves(valid_move,total_player_moves)
+                        print('MOVES in game.py:', total_player_moves)
+
                         p.move(current_tile,target_tile,tiles,lb_piece_dict,db_dict, valid_move)
-
                         if total_player_moves == 0:
-
-                            total_player_moves = 3
                             lb_turn, db_turn = self.change_teams(lb_turn, db_turn, lb_piece_dict, db_dict)
+                            print('lb turn is: ', lb_turn)
+                            print('db_turn is: ', db_turn)
+                            total_player_moves = 3
+
+
                         self.clicked_tiles.clear()
+
 
 
                 if event.type == pygame.KEYDOWN:
@@ -148,8 +159,18 @@ class Game:
                         # print(lb_piece_dict['lb_2'].tile)
                         # print(db_dict)
                         # print('Player Moves: ', total_player_moves)
-                        print(db_dict['db_1'].movable)
-                        print(lb_piece_dict['lb_1'].movable)
+                        # print(db_dict['db_1'].movable)
+                        # print(lb_piece_dict['lb_1'].movable)
+                        print('MOVES: ',total_player_moves)
+                        for i in tiles:
+                            if tiles[i]['isSelected'] == True:
+                                for j in lb_piece_dict:
+                                    if lb_piece_dict[j].x == tiles[i]['center'][0]and lb_piece_dict[j].y == tiles[i]['center'][1]:
+                                        print(j, 'is', lb_piece_dict[j].movable, 'movable')
+                                for k in db_dict:
+                                    if db_dict[k].x == tiles[i]['center'][0] and db_dict[k].y == tiles[i]['center'][1]:
+                                        print(k, 'is', db_dict[k].movable, 'movable')
+
 
 
                     elif event.key == pygame.K_ESCAPE:
