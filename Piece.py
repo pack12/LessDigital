@@ -50,7 +50,7 @@ class BoardPiece():
         valid_moves = ['N', 'E', 'S', 'W']
         if move_direction in valid_moves or jump == True:
             if tiles[target_tile]['isOcuppied'] == True or selected_piece.movable == False:
-                print('INVALID, despite ^^')
+                # print('INVALID, despite ^^')
                 return False
             if diagonal == True:
                 # print('dagonal')
@@ -69,9 +69,9 @@ class BoardPiece():
             if selected_tile != None:
 
                 if lb_dict[i].x == tiles[selected_tile]['center'][0] and lb_dict[i].y == tiles[selected_tile]['center'][1]: #and lb_dict[i].movable == True
-                    print('Lb selected')    #If selected,
+                    # print('Lb selected')    #If selected,
                     moveable = lb_dict[i] # The selected piece gets stored in the variable moveable
-                    print('is this moveable',moveable.movable)
+                    # print('is this moveable',moveable.movable)
             else:
                 pass
         for i in db_dict:
@@ -79,9 +79,9 @@ class BoardPiece():
 
                 if db_dict[i].x == tiles[selected_tile]['center'][0] and db_dict[i].y == tiles[selected_tile]['center'][1]: #and db_dict[i].movable == True
 
-                    print('db selected')    #If selected,
+                    # print('db selected')    #If selected,
                     moveable = db_dict[i] # The selected piece gets stored in the variable moveable
-                    print('is this moveable', moveable.movable)
+                    # print('is this moveable', moveable.movable)
             else:
                 pass
 
@@ -93,7 +93,7 @@ class BoardPiece():
                 centerx = tiles[target_tile]['center'][0]
                 centery = tiles[target_tile]['center'][1]
 
-                print('Target: ', centerx, centery)
+                # print('Target: ', centerx, centery)
 
 
                 moveable.x = centerx
@@ -174,7 +174,7 @@ class BoardPiece():
     def check_diagonal(self, selected_tile, target_tile, tiles):
         s_tile_num = int(selected_tile[5:])
         t_tile_num = int(target_tile[5:])
-        print(s_tile_num, t_tile_num, 'check diag')
+        # print(s_tile_num, t_tile_num, 'check diag')
         if s_tile_num + 5 == t_tile_num or s_tile_num - 5 == t_tile_num:
             diagonal = True
             return diagonal

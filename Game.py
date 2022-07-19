@@ -19,7 +19,7 @@ class Game:
 
 
 
-    def draw_fonts(self,isSelected, selected_tile):
+    def draw_fonts(self,isSelected, selected_tile, moves_left, lb_turn, db_turn):
         font = (pygame.font.Font('font/Pixeltype.ttf',25)) #Loading the font
 
 
@@ -27,6 +27,8 @@ class Game:
         isSelected_1 = isSelected[:int(len(isSelected)/2)]
         isSelected_2 = isSelected[int(len(isSelected)/2):]
         isSelected_3 = selected_tile
+
+        moves_left = str(moves_left)
 
         font_srf = pygame.font.Font.render(font, isSelected_1,False,'white') # Creating the font srf using font.render
         self.win.blit(font_srf,(615,70))
@@ -36,6 +38,18 @@ class Game:
 
         font_srf = pygame.font.Font.render(font, isSelected_3, False, 'white')
         self.win.blit(font_srf, (615, 270))
+
+        font_srf = pygame.font.Font.render(font, moves_left, False, 'white')
+        self.win.blit(font_srf, (900,570))
+        if lb_turn:
+
+            font_srf = pygame.font.Font.render(font, 'LB', False, 'burlywood1')
+            self.win.blit(font_srf, (950, 570))
+        elif db_turn:
+            font_srf = pygame.font.Font.render(font, 'DB', False, 'burlywood4')
+            self.win.blit(font_srf, (950, 570))
+
+
 
 
     def sub_moves(self, valid_move, moves):
@@ -102,7 +116,7 @@ class Game:
 
 
             """ draw_fonts: Uses Pixeltype.tff to write the selected tile info"""
-            self.draw_fonts(selected_tile_info, selected_tile)
+            self.draw_fonts(selected_tile_info, selected_tile, total_player_moves, lb_turn, db_turn)
 
             """ Draws the rect rect around the selected tile if one is selected"""
             t.draw_red_rect(selected_tile, tiles,self.win)  # Takes selected_tile, tiles list(dict of str tiles, with values of dicts), and win srf
@@ -139,13 +153,13 @@ class Game:
 
 
                         total_player_moves = self.sub_moves(valid_move,total_player_moves)
-                        print('MOVES in game.py:', total_player_moves)
+                        # print('MOVES in game.py:', total_player_moves)
 
                         p.move(current_tile,target_tile,tiles,lb_piece_dict,db_dict, valid_move)
                         if total_player_moves == 0:
                             lb_turn, db_turn = self.change_teams(lb_turn, db_turn, lb_piece_dict, db_dict)
-                            print('lb turn is: ', lb_turn)
-                            print('db_turn is: ', db_turn)
+                            # print('lb turn is: ', lb_turn)
+                            # print('db_turn is: ', db_turn)
                             total_player_moves = 3
 
 
