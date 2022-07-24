@@ -163,15 +163,15 @@ class BoardPiece():
 
         return surround_pieces
 
-    def check_jump(self, current_surround, target_surround):
+    def check_piece_jump(self, current_surround, target_surround):
         for i in current_surround:
             for j in target_surround:
                 if i == j:
                     jump = True
                     return jump
         return False
-
-
+    def check_wall(self, tiles, current_tile_type, current_tile, target_tile, target_tile_type, inverse_direction):
+        pass
     def check_diagonal(self, selected_tile, target_tile, tiles):
         s_tile_num = int(selected_tile[5:])
         t_tile_num = int(target_tile[5:])

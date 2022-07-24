@@ -188,7 +188,7 @@ class Tile:
                     return target_tile_type
 
 
-    def get_inverse_wall(self, move_direction, target_tile_type):
+    def get_inverse_wall(self, move_direction):
         if move_direction == 'N':
             return 'S'
         elif move_direction == 'S':
