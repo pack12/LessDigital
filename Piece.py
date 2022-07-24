@@ -171,6 +171,7 @@ class BoardPiece():
                     return jump
         return False
 
+
     def check_diagonal(self, selected_tile, target_tile, tiles):
         s_tile_num = int(selected_tile[5:])
         t_tile_num = int(target_tile[5:])

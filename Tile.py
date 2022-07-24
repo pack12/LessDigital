@@ -172,6 +172,8 @@ class Tile:
                 if i == current_tile:
                     current_tile_type = tiles[current_tile]['type']
                     print('Current Type: ', tiles[current_tile]['type'])
+                    if len(current_tile_type) == 2:
+                        return (current_tile_type[0], current_tile_type[1])
                     return current_tile_type
 
     def get_target_tile_type(self, target_tile, tiles):
@@ -181,18 +183,20 @@ class Tile:
                 if i == target_tile:
                     target_tile_type = tiles[target_tile]['type']
                     print('Target Type: ', tiles[target_tile]['type'])
+                    if len(target_tile_type) == 2:
+                        return (target_tile_type[0], target_tile_type[1])
                     return target_tile_type
 
 
     def get_inverse_wall(self, move_direction, target_tile_type):
-        if move_direction == 'N' and target_tile_type == 'S':
-            return True
-        elif move_direction == 'S' and target_tile_type == 'N':
-            return True
-        elif move_direction == 'E' and target_tile_type == 'W':
-            return True
-        elif move_direction == 'W' and target_tile_type == 'E':
-            return True
+        if move_direction == 'N':
+            return 'S'
+        elif move_direction == 'S':
+            return 'N'
+        elif move_direction == 'E':
+            return 'W'
+        elif move_direction == 'W':
+            return 'E'
 
     def get_inside_wall(self, move_direction, current_tile_type):
         if move_direction == current_tile_type:
