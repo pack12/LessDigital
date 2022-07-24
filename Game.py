@@ -52,11 +52,19 @@ class Game:
 
 
 
-    def sub_moves(self, valid_move, moves):
-        if valid_move == True:
+    def sub_moves(self, valid_move, moves, jump, wall_jump):
+        if valid_move == True and jump == True:
             moves -= 1
             # print('MOVES',moves)
-            print('VALID')
+            print('SUB Jump 1')
+            return moves
+        elif valid_move == True and wall_jump == True:
+            moves -= 2
+            print('Sub Wall Moves 2')
+            return moves
+        elif valid_move == True:
+            moves -= 1
+            print('SUB Normal Move')
             return moves
         else:
             return moves
@@ -149,11 +157,11 @@ class Game:
                         inverse_direction = t.get_inverse_wall(move_direction)
                         # check_ontile = t.get_inside_wall(move_direction, current_tile_type)
                         # check_targettile = t.get_inverse_wall(move_direction, target_tile_type)
+                        wall_jump = p.check_wall(tiles, current_tile_type, current_tile, target_tile, target_tile_type, move_direction, inverse_direction)
+                        valid_move = p.validate_move(move_direction, jump, target_tile, tiles, diagonal, selected_piece, wall_jump, total_player_moves) # Depending on move direction, returns whether move is valid
 
-                        valid_move = p.validate_move(move_direction, jump, target_tile, tiles, diagonal, selected_piece) # Depending on move direction, returns whether move is valid
 
-
-                        total_player_moves = self.sub_moves(valid_move,total_player_moves)
+                        total_player_moves = self.sub_moves(valid_move,total_player_moves,jump,wall_jump)
                         # print('MOVES in game.py:', total_player_moves)
 
                         p.move(current_tile,target_tile,tiles,lb_piece_dict,db_dict, valid_move)
