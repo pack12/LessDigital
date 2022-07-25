@@ -150,15 +150,15 @@ class Game:
 
                         # print('surround pieces: ', surround_pieces)
                         # print('target pieces: ', target_surround)
-                        jump = p.check_piece_jump(surround_pieces, target_surround)
+
                         diagonal = p.check_diagonal(current_tile, target_tile, tiles)
                         target_tile_type = t.get_target_tile_type(target_tile, tiles) # Gets the wall type of target tile
                         current_tile_type = t.get_current_tile_type(current_tile, tiles) # Gets wall type of current tile type
                         inverse_direction = t.get_inverse_wall(move_direction)
-                        # check_ontile = t.get_inside_wall(move_direction, current_tile_type)
-                        # check_targettile = t.get_inverse_wall(move_direction, target_tile_type)
+                        jump = p.check_piece_jump(surround_pieces, target_surround)
+                        # print('Inverse:', inverse_direction)
                         wall_jump = p.check_wall(tiles, current_tile_type, current_tile, target_tile, target_tile_type, move_direction, inverse_direction)
-                        valid_move = p.validate_move(move_direction, jump, target_tile, tiles, diagonal, selected_piece, wall_jump, total_player_moves) # Depending on move direction, returns whether move is valid
+                        valid_move = p.validate_move(move_direction, inverse_direction, current_tile_type, target_tile_type, jump, target_tile, tiles, diagonal, selected_piece, wall_jump, total_player_moves) # Depending on move direction, returns whether move is valid
 
 
                         total_player_moves = self.sub_moves(valid_move,total_player_moves,jump,wall_jump)

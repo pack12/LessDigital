@@ -46,21 +46,47 @@ class BoardPiece():
                     tiles[i]['isOcuppied'] = True
 
 
-    def validate_move(self,  move_direction, jump, target_tile, tiles, diagonal, selected_piece, wall_jump, moves_left):
+    def validate_move(self,  move_direction,  inverse_direction, current_tile_type, target_tile_type,jump, target_tile, tiles, diagonal, selected_piece, wall_jump, moves_left):
         valid_moves = ['N', 'E', 'S', 'W']
 
         if tiles[target_tile]['isOcuppied'] == True or selected_piece.movable == False or diagonal == True:
             print('INvalid move')
             return False
-        elif move_direction in valid_moves and wall_jump != True:
+        elif move_direction in valid_moves and wall_jump != True and jump != True:
+            potential_walls = {'current_tile_types': [], 'target_tile_types': []}
+            for i in current_tile_type:
+                potential_walls['current_tile_types'].append(i)
+
+            for i in target_tile_type:
+                potential_walls['target_tile_types'].append(i)
+
+            print('Potential Walls : ', potential_walls)
+
+            if move_direction in potential_walls['current_tile_types'] or inverse_direction in potential_walls['target_tile_types']:
+                return False
+
             return True
         elif move_direction in valid_moves and wall_jump == True:
             if moves_left - 2 >= 0:
                 return True
             else:
                 return False
-        elif jump == True :
-            if moves_left - 1 >= 0:
+        elif move_direction in valid_moves and jump == True :
+            potential_walls = {'current_tile_types': [], 'target_tile_types': []}
+            for i in current_tile_type:
+                potential_walls['current_tile_types'].append(i)
+
+            for i in target_tile_type:
+                potential_walls['target_tile_types'].append(i)
+
+            print('Potential Walls : ', potential_walls)
+
+            if move_direction in potential_walls['current_tile_types'] or inverse_direction in potential_walls['target_tile_types']:
+                print('invalid jump')
+
+                return False
+            elif moves_left - 1 >= 0 and move_direction not in potential_walls['current_tile_types'] and inverse_direction not in potential_walls['target_tile_types']:
+                print('valid jump')
                 return True
             else:
                 return False
@@ -76,30 +102,20 @@ class BoardPiece():
 
         print('Potential Walls : ', potential_walls)
 
-        if move_direction in potential_walls['current_tile_types']:
+        if move_direction in potential_walls['current_tile_types'] and inverse_direction not in potential_walls['target_tile_types']:
             print('Wall jump true')
             wall_jump = True
             return wall_jump
-        elif inverse_direction in potential_walls['target_tile_types']:
+        elif inverse_direction in potential_walls['target_tile_types'] and move_direction not in potential_walls['current_tile_types']:
             print('Wall Jump True')
             wall_jump = True
             return wall_jump
+        elif move_direction in potential_walls['current_tile_types'] and inverse_direction in potential_walls['target_tile_types']:
 
+            print('Wall Jump False')
+            wall_jump = False
+            return wall_jump
 
-
-        # if move_direction in valid_moves or jump == True:
-        #
-        #         # print('INVALID, despite ^^')
-        #         return False
-        #     if diagonal == True:
-        #         # print('dagonal')
-        #         return False
-        #     # print('VALID MOVE')
-        #
-        #     return True
-        # else:
-        #     print('INVALID')
-        #     return False
 
     def move(self, selected_tile, target_tile,tiles, lb_dict, db_dict, valid_move):
 
@@ -148,16 +164,16 @@ class BoardPiece():
         c_tile_number = int(current_tile[5:])
         t_tile_number = int(target_tile[5:])
 
-        if c_tile_number -1 == t_tile_number:
+        if c_tile_number -1 == t_tile_number or c_tile_number - 6 == t_tile_number:
             print('W')
             return 'W'
-        elif c_tile_number + 1 == t_tile_number:
+        elif c_tile_number + 1 == t_tile_number or c_tile_number + 6 == t_tile_number:
             print('E')
             return 'E'
-        elif c_tile_number - 6 == t_tile_number:
+        elif c_tile_number - 6 == t_tile_number or c_tile_number - 12 == t_tile_number:
             print('N')
             return 'N'
-        elif c_tile_number + 6 == t_tile_number:
+        elif c_tile_number + 6 == t_tile_number or c_tile_number + 12 == t_tile_number:
             print('S')
             return 'S'
     def check_surround(self,current_tile, tiles, clicked_tiles):
