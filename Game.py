@@ -52,13 +52,16 @@ class Game:
 
 
 
-    def sub_moves(self, valid_move, moves, jump, wall_jump):
+    def sub_moves(self, valid_move, moves, jump, wall_jump, potential_walls, move_direction, inverse_direction):
         if valid_move == True and jump == True:
             moves -= 1
             # print('MOVES',moves)
             print('SUB Jump 1')
             return moves
         elif valid_move == True and wall_jump == True:
+            if move_direction in potential_walls['current_tile_types'] and inverse_direction in potential_walls['target_tile_types'] and moves - 3 == 0:
+                moves-=3
+                return moves
             moves -= 2
             print('Sub Wall Moves 2')
             return moves
@@ -159,13 +162,14 @@ class Game:
                         jump, middle_piece = p.check_piece_jump(surround_pieces, target_surround, current_tile, target_tile, diagonal)
                         print('MDDLE: ', middle_piece)
                         middle_piece_walls = t.get_current_tile_type(middle_piece, tiles) #Using get_c_type for middle_tile
+                        normal_move = p.check_normal_move(potential_walls, move_direction, inverse_direction,target_tile, current_tile)
                         # print('Inverse:', inverse_direction)
-                        wall_jump = p.check_wall(tiles, current_tile_type, current_tile, target_tile, target_tile_type, move_direction, inverse_direction, jump)
-                        normal_move = p.check_normal_move(potential_walls, move_direction, inverse_direction, target_tile, current_tile)
+                        wall_jump = p.check_wall(tiles, current_tile_type, current_tile, target_tile, target_tile_type, move_direction, inverse_direction, jump, normal_move)
+
                         valid_move = p.validate_move(move_direction, inverse_direction, current_tile_type, target_tile_type, jump, target_tile, tiles, diagonal, selected_piece, wall_jump, total_player_moves, potential_walls, normal_move, middle_piece, middle_piece_walls) # Depending on move direction, returns whether move is valid
 
 
-                        total_player_moves = self.sub_moves(valid_move,total_player_moves,jump,wall_jump)
+                        total_player_moves = self.sub_moves(valid_move,total_player_moves,jump,wall_jump, potential_walls, move_direction, inverse_direction)
                         # print('MOVES in game.py:', total_player_moves)
 
                         p.move(current_tile,target_tile,tiles,lb_piece_dict,db_dict, valid_move)

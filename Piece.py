@@ -80,6 +80,9 @@ class BoardPiece():
                 print('jump move false in VALIDATE')
                 return False
             return True
+        elif wall_jump == True:
+            if moves_left - 2 >= 0:
+                return True
         # if tiles[target_tile]['isOcuppied'] == True or selected_piece.movable == False or diagonal == True:
         #     print('INvalid move')
         #     return False
@@ -124,7 +127,7 @@ class BoardPiece():
         #     else:
         #         return False
 
-    def check_wall(self, tiles, current_tile_type, current_tile, target_tile, target_tile_type, move_direction, inverse_direction, jump):
+    def check_wall(self, tiles, current_tile_type, current_tile, target_tile, target_tile_type, move_direction, inverse_direction, jump, normal_move):
         potential_walls = {'current_tile_types':[], 'target_tile_types':[]}
         for i in current_tile_type:
             potential_walls['current_tile_types'].append(i)
@@ -135,19 +138,14 @@ class BoardPiece():
 
         print('Potential Walls : ', potential_walls)
 
-        if move_direction in potential_walls['current_tile_types'] and inverse_direction not in potential_walls['target_tile_types']:
+        if move_direction in potential_walls['current_tile_types'] or inverse_direction in potential_walls['target_tile_types']:
             print('Wall jump attempted')
             wall_jump = True
             return wall_jump
-        elif inverse_direction in potential_walls['target_tile_types'] and move_direction not in potential_walls['current_tile_types']:
-            print('Wall Jump attempted')
-            wall_jump = True
-            return wall_jump
-        elif move_direction in potential_walls['current_tile_types'] and inverse_direction in potential_walls['target_tile_types'] and jump == True:
-
-            print('Wall Jump False, Not attempted?')
+        elif jump == True or normal_move == True:
             wall_jump = False
             return wall_jump
+
 
 
     def move(self, selected_tile, target_tile,tiles, lb_dict, db_dict, valid_move):
