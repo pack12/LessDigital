@@ -148,17 +148,21 @@ class Game:
                         surround_pieces = p.check_surround(current_tile, tiles, self.clicked_tiles)
                         target_surround = p.check_target_surround(current_tile,target_tile, tiles)
 
-                        # print('surround pieces: ', surround_pieces)
-                        # print('target pieces: ', target_surround)
+                        print('surround pieces: ', surround_pieces)
+                        print('target pieces: ', target_surround)
 
                         diagonal = p.check_diagonal(current_tile, target_tile, tiles)
                         target_tile_type = t.get_target_tile_type(target_tile, tiles) # Gets the wall type of target tile
                         current_tile_type = t.get_current_tile_type(current_tile, tiles) # Gets wall type of current tile type
+                        potential_walls = p.potential_wall_types(current_tile_type, target_tile_type) #Splits up wall types into dict, current_tile:[list of wall types on tile], target_tile:[list of wall types on tile]
                         inverse_direction = t.get_inverse_wall(move_direction)
-                        jump = p.check_piece_jump(surround_pieces, target_surround)
+                        jump, middle_piece = p.check_piece_jump(surround_pieces, target_surround, current_tile, target_tile, diagonal)
+                        print('MDDLE: ', middle_piece)
+                        middle_piece_walls = t.get_current_tile_type(middle_piece, tiles) #Using get_c_type for middle_tile
                         # print('Inverse:', inverse_direction)
-                        wall_jump = p.check_wall(tiles, current_tile_type, current_tile, target_tile, target_tile_type, move_direction, inverse_direction)
-                        valid_move = p.validate_move(move_direction, inverse_direction, current_tile_type, target_tile_type, jump, target_tile, tiles, diagonal, selected_piece, wall_jump, total_player_moves) # Depending on move direction, returns whether move is valid
+                        wall_jump = p.check_wall(tiles, current_tile_type, current_tile, target_tile, target_tile_type, move_direction, inverse_direction, jump)
+                        normal_move = p.check_normal_move(potential_walls, move_direction, inverse_direction, target_tile, current_tile)
+                        valid_move = p.validate_move(move_direction, inverse_direction, current_tile_type, target_tile_type, jump, target_tile, tiles, diagonal, selected_piece, wall_jump, total_player_moves, potential_walls, normal_move, middle_piece, middle_piece_walls) # Depending on move direction, returns whether move is valid
 
 
                         total_player_moves = self.sub_moves(valid_move,total_player_moves,jump,wall_jump)

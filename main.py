@@ -6,6 +6,7 @@ from Game import Game
 from Piece import Piece
 import pygame
 def main():
+
     """ Creating Tile factory object that uses randomImage method to create imageListPaths"""
     fact = TileFactory()
     imageList = fact.randomImage()
