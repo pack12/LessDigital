@@ -65,7 +65,7 @@ class BoardPiece():
                 return True
         else:
             return False
-    def validate_move(self,  move_direction,  inverse_direction, current_tile_type, target_tile_type,jump, target_tile, tiles, diagonal, selected_piece, wall_jump, moves_left, potential_walls, normal_move, middle_piece, middle_piece_type):
+    def validate_move(self,  move_direction,  inverse_direction, current_tile_type, target_tile_type,jump, target_tile, tiles, diagonal, selected_piece, wall_jump, moves_left, potential_walls, normal_move, middle_piece, middle_piece_type, super_jump):
         valid_moves = ['N', 'E', 'S', 'W']
 
         if tiles[target_tile]['isOcuppied'] == True or selected_piece.movable == False or diagonal == True:
@@ -80,9 +80,15 @@ class BoardPiece():
                 print('jump move false in VALIDATE')
                 return False
             return True
-        elif wall_jump == True:
+        elif wall_jump == True and super_jump != True:
             if moves_left - 2 >= 0:
                 return True
+
+        elif super_jump == True:
+            print('superwall jump activated')
+            if moves_left - 3 == 0:
+                return True
+
         # if tiles[target_tile]['isOcuppied'] == True or selected_piece.movable == False or diagonal == True:
         #     print('INvalid move')
         #     return False
@@ -145,6 +151,25 @@ class BoardPiece():
         elif jump == True or normal_move == True:
             wall_jump = False
             return wall_jump
+    def check_super_wall(self, current_tile_type,  target_tile_type, move_direction, inverse_direction, wall_jump):
+        potential_walls = {'current_tile_types':[], 'target_tile_types':[]}
+        for i in current_tile_type:
+            potential_walls['current_tile_types'].append(i)
+
+
+        for i in target_tile_type:
+            potential_walls['target_tile_types'].append(i)
+
+        print('Potential Walls : ', potential_walls)
+
+        if move_direction in potential_walls['current_tile_types'] and inverse_direction in potential_walls['target_tile_types']:
+            print('Super Wall move attempted')
+            super_jump = True
+            wall_jump = False
+            return super_jump, wall_jump
+        else:
+            return None, wall_jump
+
 
 
 
