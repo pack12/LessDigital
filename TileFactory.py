@@ -7,7 +7,7 @@ class TileFactory:
 
         for i in range(36):
 
-            rand_number = random.randint(1,29)
+            rand_number = random.randint(1,50)
 
             if rand_number == 1:
                 filePath = "Images/lessN.png"
@@ -39,7 +39,7 @@ class TileFactory:
             elif rand_number == 10:
                 filePath = "Images/lessWE.png"
                 self.imageList.append(filePath)
-            elif rand_number>= 11 and rand_number<=29:
+            elif rand_number>= 11 and rand_number<=50:
                 filePath = "Images/lessb.png"
                 self.imageList.append(filePath)
         return self.imageList

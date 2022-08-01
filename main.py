@@ -32,9 +32,19 @@ def main():
     lb_pieces = {'lb_1':Piece(450, 50,'tile_5', 'Images/brownpi.png', 'lb'), 'lb_2':Piece(550, 50,'tile_6', 'Images/brownpi.png', 'lb'),
               'lb_3':Piece(450, 150,'tile_11', 'Images/brownpi.png', 'lb'), 'lb_4':Piece(550, 150,'tile_12', 'Images/brownpi.png', 'lb')}
     db_pieces = {'db_1': Piece(50, 450, 'tile_25', 'Images/darkbrownpi.png', 'db'),
-                 'lb_2': Piece(150, 450, 'tile_26', 'Images/darkbrownpi.png', 'db'),
-                 'lb_3': Piece(50, 550, 'tile_31', 'Images/darkbrownpi.png', 'db'),
-                 'lb_4': Piece(150, 550, 'tile_32', 'Images/darkbrownpi.png', 'db')}
+                 'db_2': Piece(150, 450, 'tile_26', 'Images/darkbrownpi.png', 'db'),
+                 'db_3': Piece(50, 550, 'tile_31', 'Images/darkbrownpi.png', 'db'),
+                 'db_4': Piece(150, 550, 'tile_32', 'Images/darkbrownpi.png', 'db')}
+
+    # """Testing victory conditions >>>>"""
+    # lb_pieces = {'lb_1': Piece(50, 50, 'tile_25', 'Images/brownpi.png', 'lb'),
+    #              'lb_2': Piece(350, 150, 'tile_26', 'Images/brownpi.png', 'lb'),
+    #              'lb_3': Piece(250, 150, 'tile_31', 'Images/brownpi.png', 'lb'),
+    #              'lb_4': Piece(250, 350, 'tile_32', 'Images/brownpi.png', 'lb')}
+    # db_pieces = {'db_1': Piece(450, 50, 'tile_5', 'Images/darkbrownpi.png', 'db'),
+    #              'db_2': Piece(550, 50, 'tile_6', 'Images/darkbrownpi.png', 'db'),
+    #              'db_3': Piece(450, 150, 'tile_11', 'Images/darkbrownpi.png', 'db'),
+    #              'db_4': Piece(550, 250, 'tile_12', 'Images/darkbrownpi.png', 'db')}
 
     def load_piece(piece_dict):
         piece_surfs = []

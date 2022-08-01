@@ -23,31 +23,59 @@ class Game:
         font = (pygame.font.Font('font/Pixeltype.ttf',25)) #Loading the font
 
 
-        isSelected = str(isSelected)
-        isSelected_1 = isSelected[:int(len(isSelected)/2)]
-        isSelected_2 = isSelected[int(len(isSelected)/2):]
-        isSelected_3 = selected_tile
+        # isSelected = str(isSelected)
+        # isSelected_1 = isSelected[:int(len(isSelected)/2)]
+        # isSelected_2 = isSelected[int(len(isSelected)/2):]
+        # isSelected_3 = selected_tile
+        #
+        moves_left = 'Moves left: ' + str(moves_left)
+        tile_selected = 'Selected Tile:' + str(selected_tile)
+        #
+        # font_srf = pygame.font.Font.render(font, isSelected_1,False,'white') # Creating the font srf using font.render
+        # self.win.blit(font_srf,(615,70))
+        #
+        # font_srf = pygame.font.Font.render(font, isSelected_2, False, 'white') #using same variable to render isSelected2
+        # self.win.blit(font_srf, (615, 170))
+        #
+        # font_srf = pygame.font.Font.render(font, isSelected_3, False, 'white')
+        # self.win.blit(font_srf, (615, 270))
 
-        moves_left = str(moves_left)
-
-        font_srf = pygame.font.Font.render(font, isSelected_1,False,'white') # Creating the font srf using font.render
-        self.win.blit(font_srf,(615,70))
-
-        font_srf = pygame.font.Font.render(font, isSelected_2, False, 'white') #using same variable to render isSelected2
-        self.win.blit(font_srf, (615, 170))
-
-        font_srf = pygame.font.Font.render(font, isSelected_3, False, 'white')
-        self.win.blit(font_srf, (615, 270))
+        font_srf = pygame.font.Font.render(font, tile_selected, False, 'white')
+        font_srf = pygame.transform.scale(font_srf,(font_srf.get_size()[0] * 2, font_srf.get_size()[1] *2))
+        self.win.blit(font_srf, (615, 80))
 
         font_srf = pygame.font.Font.render(font, moves_left, False, 'white')
-        self.win.blit(font_srf, (900,570))
+        # print(font_srf.get_size())
+        font_srf = pygame.transform.scale(font_srf,(200,32))
+        self.win.blit(font_srf, (615,30))
         if lb_turn:
 
-            font_srf = pygame.font.Font.render(font, 'LB', False, 'burlywood1')
-            self.win.blit(font_srf, (950, 570))
+            font_srf = pygame.font.Font.render(font, 'Team: LB', False, 'burlywood1')
+
+            font_srf = pygame.transform.scale(font_srf, (138, 32))
+            self.win.blit(font_srf, (875, 30))
         elif db_turn:
-            font_srf = pygame.font.Font.render(font, 'DB', False, 'burlywood4')
-            self.win.blit(font_srf, (950, 570))
+            font_srf = pygame.font.Font.render(font, 'Team: DB', False, 'burlywood4')
+            font_srf = pygame.transform.scale(font_srf, (138, 32))
+            self.win.blit(font_srf, (875, 30))
+    def draw_victory_font(self, team):
+        font = (pygame.font.Font('font/Pixeltype.ttf', 25))  # Loading the font
+
+        if team == 'lb':
+            print('something shourld be bhapeing')
+            font_srf = pygame.font.Font.render(font,'LB wins!', False, 'white')
+
+            self.win.blit(font_srf, (750,400))
+
+            font_srf = pygame.font.Font.render(font, '(Press Space to see game details)', False, 'white')
+            self.win.blit(font_srf, (750, 420))
+        if team == 'db':
+            font_srf = pygame.font.Font.render(font,'DB wins!', False, 'white')
+            print('something shourld be bhapeing')
+            self.win.blit(font_srf, (950,400))
+
+            font_srf = pygame.font.Font.render(font, '(Press Space to see game details)', False, 'white')
+            self.win.blit(font_srf, (750, 420))
 
 
 
@@ -99,7 +127,15 @@ class Game:
             lb_dict[i].movable = True
 
         for k in db_dict:
-            db_dict[i].movable = False
+            db_dict[k].movable = False
+    def victory_conditions(self, lb_dict, db_dict, tiles):
+        if tiles['tile_5']['pieceColor'] == 'db' and tiles['tile_6']['pieceColor'] == 'db' and tiles['tile_11']['pieceColor'] == 'db' and tiles['tile_12']['pieceColor'] == 'db':
+            return True, 'db'
+        elif tiles['tile_25']['pieceColor'] == 'lb' and tiles['tile_26']['pieceColor'] == 'lb' and tiles['tile_31']['pieceColor'] == 'lb' and tiles['tile_32']['pieceColor'] == 'lb':
+            return True, 'lb'
+        else:
+            return False, None
+
 
     def run(self, tile_list, lb_piece_surfs, lb_piece_dict, db_surfs, db_dict, tiles):
         run = True
@@ -116,17 +152,44 @@ class Game:
         move_direction = None
         lb_turn = True
         db_turn = False
+        victory = False
+        team = None
         self.set_up_turn(lb_piece_dict, db_dict)
+
+
+        cyan_srf = pygame.Surface((500, 600))
+
+        rect_color = (0, 115, 164)
+
+
+
+
+
+
         while run:
+            victory, team = self.victory_conditions(lb_piece_dict, db_dict, tiles)
+
+
+
+            # print('victor is ', victory)
+            if victory == True:
+
+                print('vict, team', team, 'wins')
+
+
+
             self.clock.tick(60)
             self.win.fill('black')
-
+            pygame.draw.rect(cyan_srf, rect_color, pygame.Rect(0, 0, 500, 600))
+            self.win.blit(cyan_srf, (600, 0))
+            self.draw_victory_font(team)
 
             t.draw_tiles(tile_list,self.win)
             p.draw_pieces(lb_piece_surfs, lb_piece_dict, db_surfs, db_dict,self.win)
             p.check_occupied(lb_piece_dict,db_dict,tiles) # Goes through each dict, checking to see if lb/db piece xy match up with a tile location, if so, sets ocuppied to TRUE
-
+            p.check_color_ontile(lb_piece_dict, db_dict, tiles)
             mouse_pos = pygame.mouse.get_pos()
+           
 
 
             """ draw_fonts: Uses Pixeltype.tff to write the selected tile info"""
@@ -135,6 +198,8 @@ class Game:
             """ Draws the rect rect around the selected tile if one is selected"""
             t.draw_red_rect(selected_tile, tiles,self.win)  # Takes selected_tile, tiles list(dict of str tiles, with values of dicts), and win srf
             # p.check_piece(lb_piece_dict, db_dict, selected_tile, tiles) # Takes selected tile and sees whether a piece occupies there, returns boolean value
+
+
 
             for event in pygame.event.get():
                 if event.type == pygame.MOUSEBUTTONDOWN:
@@ -177,6 +242,10 @@ class Game:
                         # print('MOVES in game.py:', total_player_moves)
 
                         p.move(current_tile,target_tile,tiles,lb_piece_dict,db_dict, valid_move)
+
+
+
+
                         if total_player_moves == 0:
                             lb_turn, db_turn = self.change_teams(lb_turn, db_turn, lb_piece_dict, db_dict)
                             # print('lb turn is: ', lb_turn)
@@ -192,7 +261,8 @@ class Game:
                     if event.key == pygame.K_3:
                         print(tiles)
                         # print(lb_piece_dict['lb_2'].tile)
-                        # print(db_dict)
+                        print(db_dict)
+                        print(db_dict['db_1'].x, db_dict['db_1'].y)
                         # print('Player Moves: ', total_player_moves)
                         # print(db_dict['db_1'].movable)
                         # print(lb_piece_dict['lb_1'].movable)
@@ -205,6 +275,9 @@ class Game:
                                 for k in db_dict:
                                     if db_dict[k].x == tiles[i]['center'][0] and db_dict[k].y == tiles[i]['center'][1]:
                                         print(k, 'is', db_dict[k].movable, 'movable')
+                    if event.key == pygame.K_SPACE and victory == True:
+                        run = False
+
 
 
 
@@ -224,3 +297,29 @@ class Game:
             # print(tiles)
             pygame.display.update()
 
+        while victory and run == False:
+            time = pygame.time.get_ticks()
+
+
+            print(time)
+            print(pygame.event.get())
+
+            if team == 'db':
+                self.win.fill((75,47,31))
+            elif team == 'lb':
+                self.win.fill((185, 122, 87))
+            self.clock.tick(60)
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+
+                    pygame.quit()
+                    exit()
+            pygame.display.update()
+    # def menu(self):
+    #     menu = True
+    #     while menu:
+    #         self.win.fill('white')
+    #
+    #         for event in pygame.event.get():
+    #             if event.type == pygame.QUIT:
+    #
