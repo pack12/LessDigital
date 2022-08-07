@@ -246,6 +246,7 @@ class BoardPiece():
             for j in target_surround:
                 if i == j:
                     if current_tile == target_tile or diagonal == True:
+                        print('current tile', current_tile, target_tile)
                         print('NOT JUMP')
                         return False, None
                     print('Piece Jump move attempted')

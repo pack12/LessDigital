@@ -112,6 +112,7 @@ class Tile:
 
     def tile_selector(self, mouse_pos,tiles):
         # print(mouse_pos[0], mouse_pos[1])
+        # print('tile selected')
 
         for i in tiles:
 
@@ -202,5 +203,9 @@ class Tile:
         if move_direction == current_tile_type:
             return True
 
+
+    def reset_tile_occupied(self, tiles):
+        for i in tiles:
+            tiles[i]['isOcuppied'] = False
 
 
