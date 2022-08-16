@@ -388,13 +388,15 @@ class Game:
                 play_again_rect = play_again_srf.get_rect(center=(300, 400))
                 self.win.blit(play_again_srf, play_again_rect.center)
                 pygame.draw.rect(self.win, 'black', play_again_rect, 5)
+
+                self.win.blit(exit_logo, (play_again_rect.x, play_again_rect.y + 100))
                 pygame.display.flip()
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
 
                     pygame.quit()
-                    exit()
+                    sys.exit()
             pygame.display.update()
     def menu(self, tile_list, lb_piece_surfs, lb_piece_dict, db_surfs, db_dict, tiles):
         main_menu = True
@@ -460,6 +462,9 @@ class Game:
                     while rules:
                         self.clock.tick(30)
                         self.win.fill('white')
+                        time_music = pygame.mixer.music.get_pos()
+                        print(time_music)
+                        self.menu_music(time_music)
                         # pygame.draw.rect(self.win, 'red', back_arrow_img_rect, 1)
                         self.win.blit(back_arrow_img, (back_arrow_img_rect.x, back_arrow_img_rect.y))
 
@@ -502,7 +507,7 @@ class Game:
 
                             if event.type == pygame.QUIT:
                                 pygame.quit()
-                                exit()
+                                sys.exit()
 
                         pygame.display.flip()
                 elif event.type == pygame.MOUSEBUTTONDOWN and start_col == True:
@@ -763,10 +768,22 @@ class Game:
                             # play_again_rect.x += 55
                             pygame.draw.rect(self.win, 'black', play_again_rect, 5)
 
+                            exit_button = pygame.font.Font.render(font, 'Exit?', True, rect_color)
+                            exit_button_rect = pygame.Rect(play_again_rect.x, play_again_rect.y + 100,
+                                                           play_again_rect.width, play_again_rect.height)
+                            self.win.blit(exit_button, (exit_button_rect.x + 50, exit_button_rect.y + 10))
+                            pygame.draw.rect(self.win, 'black', exit_button_rect, 1)
+
                             if play_again_rect.collidepoint(mouse_pos[0], mouse_pos[1]):
-                                pygame.draw.rect(self.win, 'white', play_again_rect,0)
-                                self.win.blit(play_again_srf,(play_again_rect.center[0] - 80, play_again_rect.center[1] - 10))
+                                pygame.draw.rect(self.win, 'white', play_again_rect, 0)
+                                self.win.blit(play_again_srf, (play_again_rect.x + 5, play_again_rect.y + 5))
                                 play_again = True
+                            elif exit_button_rect.collidepoint(mouse_pos[0], mouse_pos[1]):
+                                pygame.draw.rect(self.win, 'white', exit_button_rect, 0)
+                                self.win.blit(exit_button, (exit_button_rect.x + 50, exit_button_rect.y + 10))
+                            else:
+                                play_again = False
+                                exit = True
 
 
 
@@ -786,10 +803,25 @@ class Game:
                             play_again_rect.y -= 5
                             pygame.draw.rect(self.win, 'black', play_again_rect, 1)
 
+
+
+                            # self.win.blit(exit_logo, (play_again_rect.x, play_again_rect.y + 100))
+                            # exit_logo_rect = pygame.Rect(play_again_rect.x, play_again_rect.y + 100, play_again_rect.width, play_again_rect.height)
+                            exit_button = pygame.font.Font.render(font, 'Exit?', True, rect_color)
+                            exit_button_rect = pygame.Rect(play_again_rect.x, play_again_rect.y + 100, play_again_rect.width, play_again_rect.height)
+                            self.win.blit(exit_button, (exit_button_rect.x + 50, exit_button_rect.y + 10))
+                            pygame.draw.rect(self.win, 'black', exit_button_rect, 1)
+
                             if play_again_rect.collidepoint(mouse_pos[0], mouse_pos[1]):
                                 pygame.draw.rect(self.win, 'white', play_again_rect, 0)
                                 self.win.blit(play_again_srf, (play_again_rect.x + 5, play_again_rect.y + 5))
                                 play_again = True
+                            elif exit_button_rect.collidepoint(mouse_pos[0], mouse_pos[1]):
+                                pygame.draw.rect(self.win, 'white', exit_button_rect, 0)
+                                self.win.blit(exit_button, (exit_button_rect.x + 50, exit_button_rect.y + 10))
+                            else:
+                                play_again = False
+                                exit = True
                         self.clock.tick(60)
                         for event in pygame.event.get():
                             if event.type == pygame.MOUSEBUTTONDOWN:
@@ -817,6 +849,9 @@ class Game:
                                     self.moves = 3
 
                                     self.run(tile_list, lb_piece_surfs, lb_pieces, db_surfs, db_pieces, tiles)
+                                if exit:
+                                    pygame.quit()
+                                    sys.exit()
 
 
 
