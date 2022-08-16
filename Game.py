@@ -919,7 +919,7 @@ class Game:
         self.win.blit(one_move_srf, (30, 250))
 
         one_move_img = pygame.image.load('Images/one_move.png')
-        one_move_img = pygame.transform.scale(one_move_img, (one_move_img.get_width() /2 , one_move_img.get_height() /2))
+        one_move_img = pygame.transform.scale(one_move_img, (one_move_img.get_width() //2 , one_move_img.get_height() //2))
         one_move_rect = one_move_img.get_rect()
         self.win.blit(one_move_img, (30, 300))
 
@@ -929,7 +929,7 @@ class Game:
         self.win.blit(two_move_srf, (650, 250))
 
         two_move_img = pygame.image.load('Images/twomoves.png')
-        two_move_img = pygame.transform.scale(two_move_img, (two_move_img.get_width() / 2, two_move_img.get_height() / 2))
+        two_move_img = pygame.transform.scale(two_move_img, (two_move_img.get_width() // 2, two_move_img.get_height() //2))
         self.win.blit(two_move_img, (one_move_img.get_width() + 100, 300))
 
 
